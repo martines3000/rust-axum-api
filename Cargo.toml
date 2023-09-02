@@ -1,12 +1,18 @@
-[package]
-name = "rust-axum-api"
+[workspace]
+members = ["bin/issuer", "bin/verifier", "bin/auth"]
+resolver = "2"
+
+[workspace.package]
 authors = ["Martin Domajnko <https://github.com/martines3000>"]
+repository = "https://github.com/martines3000/rust-axum-api"
+license = "MIT OR Apache-2.0"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.72.0"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+[workspace.dependencies]
 axum = "0.6.20"
 hyper = { version = "0.14.27", features = ["full"] }
 serde = { version = "1.0.188", features = ["derive"] }
@@ -15,3 +21,11 @@ tokio = { version = "1.32.0", features = ["full"] }
 tower = "0.4.13"
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+
+# Enable a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
